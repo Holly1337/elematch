@@ -1,24 +1,33 @@
 import {
   ADD_COMPLETED_SET,
+  ADD_TO_SCORE, DESELECT_CARDS,
   GameActions,
-  SELECT_CARD,
-  SelectCardAction, SET_CURRENT_CARDS,
+  SET_CURRENT_CARDS,
   SET_SCORE,
-  SET_TIME_REMAINING
+  SET_TIME_REMAINING,
+  TOGGLE_CARD_SELECTED, ToggleCardSelectedAction
 } from './Game.actions'
 
+const getDefaultSelected = () => new Set<number>()
 const getDefaultState = (): GameState => ({
   score: 0,
   timeRemaining: 0,
   currentCards: [],
   completedSets: [],
-  selectedCardIndexes: [],
+  selectedCardIndexes: getDefaultSelected(),
 })
 
-const selectCard = (state: GameState, action: SelectCardAction): GameState => {
+const toggleCardSelected = (state: GameState, action: ToggleCardSelectedAction): GameState => {
+  const newIndexes = new Set(state.selectedCardIndexes)
+  let index = action.index
+  if (state.selectedCardIndexes.has(index)) {
+    newIndexes.delete(index)
+  } else {
+    newIndexes.add(index)
+  }
   return {
     ...state,
-    selectedCardIndexes: [...state.selectedCardIndexes, action.index]
+    selectedCardIndexes: newIndexes
   }
 }
 
@@ -29,13 +38,23 @@ export const game = (state: GameState = getDefaultState(), action: GameActions):
         ...state,
         score: action.score
       }
+    case ADD_TO_SCORE:
+      return {
+        ...state,
+        score: state.score + action.score
+      }
     case SET_TIME_REMAINING:
       return {
         ...state,
         score: action.timeRemaining
       }
-    case SELECT_CARD:
-      return selectCard(state, action)
+    case TOGGLE_CARD_SELECTED:
+      return toggleCardSelected(state, action)
+    case DESELECT_CARDS:
+      return {
+        ...state,
+        selectedCardIndexes: getDefaultSelected()
+      }
     case ADD_COMPLETED_SET:
       return {
         ...state,
@@ -49,4 +68,10 @@ export const game = (state: GameState = getDefaultState(), action: GameActions):
   default:
     return state
   }
+}
+
+export const getSelectedCards = (state: GameState) => {
+  const indexes = Array.from(state.selectedCardIndexes)
+  const selectedCards = indexes.map(index => state.currentCards[index])
+  return selectedCards
 }

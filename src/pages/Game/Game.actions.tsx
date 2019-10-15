@@ -13,6 +13,21 @@ export function setScore (score: number): SetScoreAction {
   }
 }
 
+// Action add to score
+export const ADD_TO_SCORE = 'Game/ADD_TO_SCORE'
+
+export interface AddToScoreAction {
+  type: typeof ADD_TO_SCORE,
+  score: number
+}
+
+export function addToScore (score: number): AddToScoreAction {
+  return {
+    type: ADD_TO_SCORE,
+    score
+  }
+}
+
 // Action set time remaining
 export const SET_TIME_REMAINING = 'Game/SET_TIME_REMAINING'
 
@@ -28,18 +43,31 @@ export function setTimeRemaining (timeRemaining: number): SetTimeRemainingAction
   }
 }
 
-// Action select card
-export const SELECT_CARD = 'Game/SELECT_CARD'
+// Action toggle card selected
+export const TOGGLE_CARD_SELECTED = 'Game/TOGGLE_CARD_SELECTED'
 
-export interface SelectCardAction {
-  type: typeof SELECT_CARD,
+export interface ToggleCardSelectedAction {
+  type: typeof TOGGLE_CARD_SELECTED,
   index: number
 }
 
-export function selectCard (index: number): SelectCardAction {
+export function toggleCardSelected (index: number): ToggleCardSelectedAction {
   return {
-    type: SELECT_CARD,
+    type: TOGGLE_CARD_SELECTED,
     index
+  }
+}
+
+// Action deselect cards
+export const DESELECT_CARDS = 'Game/DESELECT_CARDS'
+
+export interface DeselectCardsAction {
+  type: typeof DESELECT_CARDS
+}
+
+export function deselectCards (): DeselectCardsAction {
+  return {
+    type: DESELECT_CARDS
   }
 }
 
@@ -48,10 +76,10 @@ export const ADD_COMPLETED_SET = 'Game/ADD_COMPLETED_SET'
 
 export interface AddCompletedSetAction {
   type: typeof ADD_COMPLETED_SET,
-  cardSet: CardSet
+  cardSet: ElementCardSet
 }
 
-export function addCompletedSet (cardSet: CardSet): AddCompletedSetAction {
+export function addCompletedSet (cardSet: ElementCardSet): AddCompletedSetAction {
   return {
     type: ADD_COMPLETED_SET,
     cardSet
@@ -63,10 +91,10 @@ export const SET_CURRENT_CARDS = 'Game/SET_CURRENT_CARDS'
 
 export interface SetCurrentCardsAction {
   type: typeof SET_CURRENT_CARDS
-  cards: Card[]
+  cards: ElementCard[]
 }
 
-export function setCurrentCards (cards: Card[]): SetCurrentCardsAction {
+export function setCurrentCards (cards: ElementCard[]): SetCurrentCardsAction {
   return {
     type: SET_CURRENT_CARDS,
     cards
@@ -75,7 +103,9 @@ export function setCurrentCards (cards: Card[]): SetCurrentCardsAction {
 
 export type GameActions =
   SetScoreAction
+  | AddToScoreAction
   | SetTimeRemainingAction
-  | SelectCardAction
+  | ToggleCardSelectedAction
+  | DeselectCardsAction
   | AddCompletedSetAction
   | SetCurrentCardsAction

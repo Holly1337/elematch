@@ -1,24 +1,31 @@
 import React from 'react'
 import { Col, Row } from 'react-bootstrap'
 import Card from './Card/Card'
+import { connect } from 'react-redux'
 
-const CardHolder = () => {
+interface OwnProps {}
+interface StateProps {
+  cards: ElementCard[]
+}
+interface DispatchProps {}
+type Props = OwnProps & StateProps & DispatchProps
+
+const CardHolder: React.FC<Props> = ({ cards }) => {
   return (
     <Row>
-      <Col>
-        <Card isSelected />
-      </Col>
-      <Col>
-        <Card />
-      </Col>
-      <Col>
-        <Card />
-      </Col>
-      <Col>
-        <Card />
-      </Col>
+      {cards.map((card, index) => (
+        <Col md={3} sm={4} key={index}>
+          <Card card={card} index={index} />
+        </Col>
+      ))}
     </Row>
   )
 }
 
-export default CardHolder
+const mapStateToProps = (state: AppState): StateProps => ({
+  cards: state.game.currentCards
+})
+
+export default connect(
+  mapStateToProps
+)(CardHolder)
