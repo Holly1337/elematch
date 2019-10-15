@@ -1,0 +1,19 @@
+@font-face {
+    font-family: "DisposableDroid";
+    src: url('../fonts/disposabledroid-bb/DisposableDroidBB.ttf') format('truetype');
+    font-style: normal;
+    font-weight: 600;
+}
+
+h1 {
+    font-family: "DisposableDroid";
+    font-weight: normal;
+}
+
+.element-card {
+    width: 100%;
+}
+
+.card-image.card-image-selected {
+    border: 5px solid gold;
+}
