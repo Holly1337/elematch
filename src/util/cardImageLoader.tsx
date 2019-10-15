@@ -58,7 +58,6 @@ export const CARD_IMAGES = {
 
 export const getImageForCard = (card: ElementCard) => {
   const attribute = `image${card.element}${card.color}${card.amount}`
-  console.log(attribute)
   // @ts-ignore
   return CARD_IMAGES[attribute]
 }

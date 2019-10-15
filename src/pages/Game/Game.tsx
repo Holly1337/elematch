@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react'
 import { Container } from 'react-bootstrap'
 import CardHolder from './CardHolder/CardHolder'
-import background from '../../assets/images/background-with-area.png'
 import { Dispatch } from 'redux'
 import { connect } from 'react-redux'
-import { deselectCards, setCurrentCards } from './Game.actions'
+import { addToScore, deselectCards, setCurrentCards } from './Game.actions'
 import { getSelectedCards } from './Game.reducer'
 import { AMOUNT_TO_SELECT } from '../../constants/gameplay'
+import { getDeck, getSetDifficulty, isValidSet } from '../../util/deck'
+import ScoreDisplay from './ScoreDisplay/ScoreDisplay'
 
 interface OwnProps {}
 interface StateProps {
@@ -15,43 +16,37 @@ interface StateProps {
 interface DispatchProps {
   setCurrentCards: (cards: ElementCard[]) => void
   deselectCards: () => void
+  addToScore: (score: number) => void
 }
 type Props = OwnProps & StateProps & DispatchProps
 
-const Game: React.FC<Props> = ({ setCurrentCards, selectedCards, deselectCards }) => {
+const Game: React.FC<Props> = ({ setCurrentCards, selectedCards, deselectCards, addToScore }) => {
 
   useEffect(() => {
-    const attributes = [
-      ['Fire', 'Water', 'Energy'],
-      ['Red', 'Blue', 'Yellow'],
-      [1, 2, 3],
-    ]
-
-    let allCards: ElementCard[] = []
-    for (let i = 0; i < 3; i++) {
-      for (let j = 0; j < 3; j++) {
-        for (let k = 0; k < 3; k++) {
-          const card: ElementCard = {
-            // @ts-ignore
-            element: attributes[0][i],
-            // @ts-ignore
-            color: attributes[1][j],
-            // @ts-ignore
-            amount: attributes[2][k]
-          }
-          allCards.push(card)
-        }
-      }
+    const deck = getDeck()
+    if (deck) {
+      setCurrentCards(deck)
     }
 
-    const cards = allCards.splice(0, 12)
-
-    setCurrentCards(cards)
   }, [setCurrentCards])
 
   useEffect(() => {
     if (selectedCards.length >= AMOUNT_TO_SELECT) {
+      const [card1, card2, card3] = selectedCards
+      const isValid = isValidSet(card1, card2, card3)
       deselectCards()
+
+      if (!isValid) {
+        console.log('ZONK')
+      } else {
+        const difficulty = getSetDifficulty(card1, card2, card3)
+        const points = difficulty * 10
+        addToScore(points)
+        const deck = getDeck()
+        if (deck) {
+          setCurrentCards(deck)
+        }
+      }
     }
   }, [selectedCards])
 
@@ -66,6 +61,7 @@ const Game: React.FC<Props> = ({ setCurrentCards, selectedCards, deselectCards }
     >
       <Container>
         <CardHolder />
+        <ScoreDisplay />
       </Container>
     </div>
 
@@ -78,7 +74,8 @@ const mapStateToProps = (state: AppState): StateProps => ({
 
 const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps): DispatchProps => ({
   setCurrentCards: cards => { dispatch(setCurrentCards(cards)) },
-  deselectCards: () => { dispatch(deselectCards()) }
+  deselectCards: () => { dispatch(deselectCards()) },
+  addToScore: (score: number) => { dispatch(addToScore(score)) }
 })
 
 
