@@ -9,6 +9,7 @@ import { AMOUNT_TO_SELECT } from '../../constants/gameplay'
 import { getDeck, getSetDifficulty, isValidSet } from '../../util/deck'
 import ScoreDisplay from './ScoreDisplay/ScoreDisplay'
 import LastSetHolder from './LastSetHolder/LastSetHolder'
+import background from '../../assets/images/background.png'
 
 interface OwnProps {}
 interface StateProps {
@@ -62,11 +63,10 @@ const Game: React.FC<Props> = ({ setCurrentCards, selectedCards, deselectCards, 
   return (
     <div
       className='background'
-      // style={{
-      //   backgroundImage: `url('${background}')`,
-      //   height: '100vh',
-      //   backgroundSize: 'contain'
-      // }}
+      style={{
+        backgroundImage: `url('${background}')`,
+        height: '100vh'
+      }}
     >
       <Container>
         <CardHolder />

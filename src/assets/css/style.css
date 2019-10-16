@@ -5,9 +5,11 @@
     font-weight: 600;
 }
 
-h1 {
+
+
+body {
     font-family: "DisposableDroid";
-    font-weight: normal;
+    color: white;
 }
 
 .element-card {
@@ -15,14 +17,20 @@ h1 {
 }
 
 .card-image {
-    border: 5px solid white;
+    border: 5px solid transparent;
     transition: transform .5s ease-in-out;
 }
 
 .card-image.card-image-selected {
     border: 5px solid gold;
+    border-radius: 5px;
 }
 
 .card-image.card-image-rotated {
     transform: rotate(30deg);
+}
+
+.background {
+    background-size: cover;
+    background-position: center;
 }

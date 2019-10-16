@@ -24,9 +24,6 @@ type Props = OwnProps & StateProps & DispatchProps
 const SelectableCard: React.FC<Props> = ({ card, index, isSelected, toggleSelected, selectedCards }) => {
   const controls = useAnimation()
 
-  const [selectedCardsLength, setSelectedCardsLength] = useState(0)
-  const [isRotated, setIsRotated] = useState(false)
-
   const className = classnames(
     'element-card d-flex justify-content-center align-items-center'
   )
@@ -34,7 +31,6 @@ const SelectableCard: React.FC<Props> = ({ card, index, isSelected, toggleSelect
   if (
     isSelected
     && selectedCards.length === 3
-    && !isRotated
   ) {
     const [card1, card2, card3] = selectedCards
     if (!isValidSet(card1, card2, card3)) {
@@ -54,6 +50,14 @@ const SelectableCard: React.FC<Props> = ({ card, index, isSelected, toggleSelect
     toggleSelected(index)
   }
 
+  const onClick = () => {
+    if (!isSelected) {
+      controls.start({
+        scale: [1.0, 1.05, 1.0],
+      })
+    }
+    toggleIsSelected()
+  }
 
   return (
     <div
@@ -61,12 +65,12 @@ const SelectableCard: React.FC<Props> = ({ card, index, isSelected, toggleSelect
     >
       <motion.div
         animate={controls}
-        transition={{ ease: "easeInOut", duration: 0.2 }}
+        transition={{ ease: "easeInOut", duration: 0.15 }}
       >
         <img
           src={getImageForCard(card)}
           className={imageClassname}
-          onClick={toggleIsSelected}
+          onClick={onClick}
           alt=''
         />
       </motion.div>
