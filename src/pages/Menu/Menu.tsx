@@ -1,15 +1,19 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Page from '../Page'
 import background from '../../assets/images/background.png'
 import startGameButton from '../../assets/images/buttons/button-playnow.png'
 import { RouteComponentProps, useHistory, withRouter } from 'react-router'
 import { routes } from '../../constants/routes'
 
-interface Props extends RouteComponentProps {
+const Menu: React.FC = () => {
+  const history = useHistory()
+  useEffect(() => {
+    console.log('menu mounted')
+    return () => {
+      console.log('menu unmounted')
+    }
+  }, [])
 
-}
-
-const Menu: React.FC<Props> = ({ history }) => {
   const onStartGame = () => {
     history.push(routes.GAME)
   }
@@ -30,4 +34,4 @@ const Menu: React.FC<Props> = ({ history }) => {
   )
 }
 
-export default withRouter(Menu)
+export default Menu

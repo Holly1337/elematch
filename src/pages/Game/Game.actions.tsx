@@ -33,10 +33,10 @@ export const SET_TIME_REMAINING = 'Game/SET_TIME_REMAINING'
 
 export interface SetTimeRemainingAction {
   type: typeof SET_TIME_REMAINING,
-  timeRemaining: number
+  timeRemaining: number | null
 }
 
-export function setTimeRemaining (timeRemaining: number): SetTimeRemainingAction {
+export function setTimeRemaining (timeRemaining: number | null): SetTimeRemainingAction {
   return {
     type: SET_TIME_REMAINING,
     timeRemaining

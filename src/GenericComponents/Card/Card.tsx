@@ -26,6 +26,7 @@ const Card: React.FC<Props> = ({ card, containerClassName, imageClassName, onCli
         className={imageClassname}
         onClick={onClick}
         alt=''
+        draggable={false}
       />
     </div>
   )

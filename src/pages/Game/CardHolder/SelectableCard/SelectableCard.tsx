@@ -7,6 +7,7 @@ import { getImageForCard } from '../../../../util/cardImageLoader'
 import { getSelectedCards } from '../../Game.reducer'
 import { motion, useAnimation } from 'framer-motion'
 import { isValidSet } from '../../../../util/deck'
+import { audio } from '../../../../util/audio'
 
 interface OwnProps {
   card: ElementCard
@@ -52,6 +53,14 @@ const SelectableCard: React.FC<Props> = ({ card, index, isSelected, toggleSelect
 
   const onClick = () => {
     if (!isSelected) {
+      switch (selectedCards.length) {
+        case 0:
+          audio.select1.play()
+          break
+        case 1:
+          audio.select2.play()
+          break
+      }
       controls.start({
         scale: [1.0, 1.05, 1.0],
       })
@@ -72,6 +81,7 @@ const SelectableCard: React.FC<Props> = ({ card, index, isSelected, toggleSelect
           className={imageClassname}
           onClick={onClick}
           alt=''
+          draggable={false}
         />
       </motion.div>
     </div>

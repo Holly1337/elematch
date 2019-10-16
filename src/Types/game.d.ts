@@ -1,6 +1,6 @@
 interface GameState {
   score: number // we might also calculate this by iterating the "completedSets" property
-  timeRemaining: number
+  timeRemaining: number | null
   currentCards: ElementCard[]
   completedSets: ElementCard[][]
   selectedCardIndexes: Set<number>

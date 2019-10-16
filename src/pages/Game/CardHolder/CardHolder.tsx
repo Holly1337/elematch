@@ -18,9 +18,8 @@ const CardHolder: React.FC<Props> = ({ cards }) => {
         <Col md={3} sm={4} xs={4} key={card.id}>
           <motion.div
             key={card.id}
-            animate={{
-              opacity: [0, 1],
-            }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
             transition={{
               ease: 'linear',
               duration: 0.1,

@@ -1,18 +1,24 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { connect } from 'react-redux'
 import { Dispatch } from 'redux'
-import { changeTimeRemaining } from '../../Game.actions'
+import { changeTimeRemaining, setTimeRemaining } from '../../Game.actions'
+import { useHistory } from 'react-router'
+import { routes } from '../../../../constants/routes'
 
 interface OwnProps {}
 interface StateProps {
-  timeRemaining: number
+  timeRemaining: number | null
 }
 interface DispatchProps {
   changeTimeRemaining: (time: number) => void
+  clearTime: () => void
 }
 type Props = OwnProps & StateProps & DispatchProps
 
-const Timer: React.FC<Props> = ({ timeRemaining, changeTimeRemaining }) => {
+let interval: undefined | number = undefined
+const Timer: React.FC<Props> = ({ timeRemaining, changeTimeRemaining, clearTime }) => {
+  let history = useHistory()
+
   const reduceTimeByOne = useCallback(() => {
     changeTimeRemaining(-1)
   }, [changeTimeRemaining])
@@ -21,11 +27,17 @@ const Timer: React.FC<Props> = ({ timeRemaining, changeTimeRemaining }) => {
     const newInterval = window.setInterval(() => {
       reduceTimeByOne()
     }, 1000)
+    interval = newInterval
 
     return () => {
+      console.log('clean interval')
       window.clearInterval(newInterval)
     }
   }, [reduceTimeByOne])
+
+  if (typeof timeRemaining !== 'number') {
+    return null
+  }
 
   return (
     <h2>
@@ -39,7 +51,8 @@ const mapStateToProps = (state: AppState): StateProps => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps): DispatchProps => ({
-  changeTimeRemaining: (timeRemaining: number) => { dispatch(changeTimeRemaining(timeRemaining)) }
+  changeTimeRemaining: (timeRemaining: number) => { dispatch(changeTimeRemaining(timeRemaining)) },
+  clearTime: () => { dispatch(setTimeRemaining(null)) }
 })
 
 export default connect(
