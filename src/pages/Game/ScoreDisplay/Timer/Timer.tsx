@@ -25,7 +25,7 @@ const Timer: React.FC<Props> = ({ timeRemaining, changeTimeRemaining }) => {
     setInterval(newInterval)
 
     return () => {
-      window.clearInterval(interval)
+      window.clearInterval(newInterval)
     }
   }, [reduceTimeByOne])
 
