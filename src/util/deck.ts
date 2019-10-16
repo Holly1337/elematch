@@ -1,4 +1,5 @@
 import { CardAmount, CardColor, CardElement } from '../Types/enums.d'
+import { v4 as uuidv4 } from 'uuid'
 import { shuffleArray } from './arrayShuffle'
 
 const cardAttributes: [
@@ -17,6 +18,7 @@ export const getAllPossibleCards = (): ElementCard[] => {
     for (let j = 0; j < 3; j++) {
       for (let k = 0; k < 3; k++) {
         const card: ElementCard = {
+          id: uuidv4(),
           element: cardAttributes[0][i],
           color: cardAttributes[1][j],
           amount: cardAttributes[2][k]

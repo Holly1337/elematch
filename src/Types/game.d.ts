@@ -9,6 +9,7 @@ interface GameState {
 type ElementCardSet = ElementCard[] // TODO: change to [ElementCard, ElementCard, ElementCard]?
 
 interface ElementCard {
+  id: string
   element: CardElement,
   color: CardColor,
   amount: CardAmount
