@@ -1,5 +1,4 @@
 import React from 'react';
-import { Redirect, Route } from 'react-router-dom';
 import { IonApp, IonRouterOutlet } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import Home from './pages/Home';
@@ -27,6 +26,9 @@ import './theme/variables.css';
 import Game from './pages/Game/Game'
 import { Provider } from 'react-redux'
 import configureStore from './redux/configureStore'
+import Menu from './pages/Menu/Menu'
+import { routes } from './constants/routes'
+import { Route } from 'react-router'
 
 const App: React.FC = () => {
   const store = configureStore()
@@ -34,12 +36,13 @@ const App: React.FC = () => {
     <Provider store={store}>
       <IonApp>
         <IonReactRouter>
-          <IonRouterOutlet>
-            <Route path="/home" component={Home} exact={true} />
-            <Route exact path="/">
+          <IonRouterOutlet animated={false}>
+            <Route exact path={routes.MENU}>
+              <Menu />
+            </Route>
+            <Route exact path={routes.GAME}>
               <Game />
             </Route>
-
           </IonRouterOutlet>
         </IonReactRouter>
       </IonApp>

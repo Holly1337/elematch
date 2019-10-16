@@ -34,3 +34,7 @@ body {
     background-size: cover;
     background-position: center;
 }
+
+.cursor-pointer {
+    cursor: pointer;
+}
