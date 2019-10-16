@@ -1,6 +1,5 @@
 import React from 'react'
 import { Dispatch } from 'redux'
-import energyBlue1Full from '../../../../assets/images/cards/energy-blue-1-full.png'
 import classnames from 'classnames'
 import { connect } from 'react-redux'
 import { toggleCardSelected } from '../../Game.actions'

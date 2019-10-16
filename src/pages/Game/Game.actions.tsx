@@ -28,7 +28,7 @@ export function addToScore (score: number): AddToScoreAction {
   }
 }
 
-// Action set time remaining
+// Action set timeRemaining remaining
 export const SET_TIME_REMAINING = 'Game/SET_TIME_REMAINING'
 
 export interface SetTimeRemainingAction {
@@ -43,6 +43,20 @@ export function setTimeRemaining (timeRemaining: number): SetTimeRemainingAction
   }
 }
 
+// Action change time remaining
+export const CHANGE_TIME_REMAINING = 'Game/CHANGE_TIME_REMAINING'
+
+export interface ChangeTimeRemainingAction {
+  type: typeof CHANGE_TIME_REMAINING
+  amount: number
+}
+
+export function changeTimeRemaining (amount: number): ChangeTimeRemainingAction {
+  return {
+    type: CHANGE_TIME_REMAINING,
+    amount
+  }
+}
 // Action toggle card selected
 export const TOGGLE_CARD_SELECTED = 'Game/TOGGLE_CARD_SELECTED'
 
@@ -101,11 +115,28 @@ export function setCurrentCards (cards: ElementCard[]): SetCurrentCardsAction {
   }
 }
 
+// Action start game
+export const START_GAME = 'Game/START_GAME'
+
+export interface StartGameAction {
+  type: typeof START_GAME,
+  time: number
+}
+
+export function startGame (time: number): StartGameAction {
+  return {
+    type: START_GAME,
+    time
+  }
+}
+
 export type GameActions =
   SetScoreAction
   | AddToScoreAction
   | SetTimeRemainingAction
+  | ChangeTimeRemainingAction
   | ToggleCardSelectedAction
   | DeselectCardsAction
   | AddCompletedSetAction
   | SetCurrentCardsAction
+  | StartGameAction

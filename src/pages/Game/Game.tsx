@@ -3,7 +3,7 @@ import { Container } from 'react-bootstrap'
 import CardHolder from './CardHolder/CardHolder'
 import { Dispatch } from 'redux'
 import { connect } from 'react-redux'
-import { addToScore, deselectCards, setCurrentCards } from './Game.actions'
+import { addToScore, deselectCards, setCurrentCards, startGame } from './Game.actions'
 import { getSelectedCards } from './Game.reducer'
 import { AMOUNT_TO_SELECT } from '../../constants/gameplay'
 import { getDeck, getSetDifficulty, isValidSet } from '../../util/deck'
@@ -17,10 +17,14 @@ interface DispatchProps {
   setCurrentCards: (cards: ElementCard[]) => void
   deselectCards: () => void
   addToScore: (score: number) => void
+  startGame: (time: number) => void
 }
 type Props = OwnProps & StateProps & DispatchProps
 
-const Game: React.FC<Props> = ({ setCurrentCards, selectedCards, deselectCards, addToScore }) => {
+const Game: React.FC<Props> = ({ setCurrentCards, selectedCards, deselectCards, addToScore, startGame }) => {
+  useEffect(() => {
+    startGame(99)
+  }, [])
 
   useEffect(() => {
     const deck = getDeck()
@@ -31,6 +35,7 @@ const Game: React.FC<Props> = ({ setCurrentCards, selectedCards, deselectCards, 
   }, [setCurrentCards])
 
   useEffect(() => {
+    // of 3 cards are selected
     if (selectedCards.length >= AMOUNT_TO_SELECT) {
       const [card1, card2, card3] = selectedCards
       const isValid = isValidSet(card1, card2, card3)
@@ -75,7 +80,8 @@ const mapStateToProps = (state: AppState): StateProps => ({
 const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps): DispatchProps => ({
   setCurrentCards: cards => { dispatch(setCurrentCards(cards)) },
   deselectCards: () => { dispatch(deselectCards()) },
-  addToScore: (score: number) => { dispatch(addToScore(score)) }
+  addToScore: (score: number) => { dispatch(addToScore(score)) },
+  startGame: (time: number) => { dispatch(startGame(time)) }
 })
 
 

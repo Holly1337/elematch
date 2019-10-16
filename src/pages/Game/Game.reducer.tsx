@@ -1,11 +1,15 @@
 import {
   ADD_COMPLETED_SET,
-  ADD_TO_SCORE, DESELECT_CARDS,
+  ADD_TO_SCORE,
+  CHANGE_TIME_REMAINING,
+  DESELECT_CARDS,
   GameActions,
   SET_CURRENT_CARDS,
   SET_SCORE,
   SET_TIME_REMAINING,
-  TOGGLE_CARD_SELECTED, ToggleCardSelectedAction
+  START_GAME,
+  TOGGLE_CARD_SELECTED,
+  ToggleCardSelectedAction
 } from './Game.actions'
 
 const getDefaultSelected = () => new Set<number>()
@@ -46,7 +50,12 @@ export const game = (state: GameState = getDefaultState(), action: GameActions):
     case SET_TIME_REMAINING:
       return {
         ...state,
-        score: action.timeRemaining
+        timeRemaining: action.timeRemaining
+      }
+    case CHANGE_TIME_REMAINING:
+      return {
+        ...state,
+        timeRemaining: state.timeRemaining + action.amount
       }
     case TOGGLE_CARD_SELECTED:
       return toggleCardSelected(state, action)
@@ -64,6 +73,11 @@ export const game = (state: GameState = getDefaultState(), action: GameActions):
       return {
         ...state,
         currentCards: action.cards
+      }
+    case START_GAME:
+      return {
+        ...getDefaultState(),
+        timeRemaining: action.time
       }
   default:
     return state
