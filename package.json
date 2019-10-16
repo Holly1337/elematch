@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "dependencies": {
+    "@ionic-native/native-audio": "^5.15.0",
     "@ionic/react": "^4.11.0",
     "@ionic/react-router": "^4.11.0",
     "@types/classnames": "^2.2.9",
@@ -17,6 +18,7 @@
     "@types/redux-thunk": "^2.1.0",
     "bootstrap": "^4.3.1",
     "classnames": "^2.2.6",
+    "framer-motion": "^1.6.14",
     "ionicons": "^4.6.3",
     "react": "^16.10.2",
     "react-bootstrap": "^1.0.0-beta.14",
@@ -50,5 +52,8 @@
       "last 1 safari version"
     ]
   },
-  "description": "An Ionic project"
+  "description": "An Ionic project",
+  "devDependencies": {
+    "tslint-config-standard": "^8.0.1"
+  }
 }

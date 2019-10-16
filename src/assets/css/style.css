@@ -16,8 +16,13 @@ h1 {
 
 .card-image {
     border: 5px solid white;
+    transition: transform .5s ease-in-out;
 }
 
 .card-image.card-image-selected {
     border: 5px solid gold;
+}
+
+.card-image.card-image-rotated {
+    transform: rotate(30deg);
 }

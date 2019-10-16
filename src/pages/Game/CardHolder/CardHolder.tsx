@@ -1,7 +1,7 @@
 import React from 'react'
 import { Col, Row } from 'react-bootstrap'
-import Card from './Card/Card'
 import { connect } from 'react-redux'
+import SelectableCard from './SelectableCard/SelectableCard'
 
 interface OwnProps {}
 interface StateProps {
@@ -14,8 +14,8 @@ const CardHolder: React.FC<Props> = ({ cards }) => {
   return (
     <Row>
       {cards.map((card, index) => (
-        <Col md={3} sm={4} key={index}>
-          <Card card={card} index={index} />
+        <Col md={3} sm={4} xs={4} key={index}>
+          <SelectableCard card={card} index={index} />
         </Col>
       ))}
     </Row>

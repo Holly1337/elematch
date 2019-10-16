@@ -3,11 +3,12 @@ import { Container } from 'react-bootstrap'
 import CardHolder from './CardHolder/CardHolder'
 import { Dispatch } from 'redux'
 import { connect } from 'react-redux'
-import { addToScore, deselectCards, setCurrentCards, startGame } from './Game.actions'
+import { addCompletedSet, addToScore, deselectCards, setCurrentCards, startGame } from './Game.actions'
 import { getSelectedCards } from './Game.reducer'
 import { AMOUNT_TO_SELECT } from '../../constants/gameplay'
 import { getDeck, getSetDifficulty, isValidSet } from '../../util/deck'
 import ScoreDisplay from './ScoreDisplay/ScoreDisplay'
+import LastSetHolder from './LastSetHolder/LastSetHolder'
 
 interface OwnProps {}
 interface StateProps {
@@ -17,11 +18,12 @@ interface DispatchProps {
   setCurrentCards: (cards: ElementCard[]) => void
   deselectCards: () => void
   addToScore: (score: number) => void
+  addCompletedSet: (set: ElementCard[]) => void
   startGame: (time: number) => void
 }
 type Props = OwnProps & StateProps & DispatchProps
 
-const Game: React.FC<Props> = ({ setCurrentCards, selectedCards, deselectCards, addToScore, startGame }) => {
+const Game: React.FC<Props> = ({ setCurrentCards, selectedCards, deselectCards, addToScore, startGame, addCompletedSet }) => {
   useEffect(() => {
     startGame(99)
   }, [])
@@ -47,6 +49,8 @@ const Game: React.FC<Props> = ({ setCurrentCards, selectedCards, deselectCards, 
         const difficulty = getSetDifficulty(card1, card2, card3)
         const points = difficulty * 10
         addToScore(points)
+        const set = [...selectedCards]
+        addCompletedSet(set)
         const deck = getDeck()
         if (deck) {
           setCurrentCards(deck)
@@ -67,6 +71,7 @@ const Game: React.FC<Props> = ({ setCurrentCards, selectedCards, deselectCards, 
       <Container>
         <CardHolder />
         <ScoreDisplay />
+        <LastSetHolder />
       </Container>
     </div>
 
@@ -81,6 +86,7 @@ const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps): DispatchPro
   setCurrentCards: cards => { dispatch(setCurrentCards(cards)) },
   deselectCards: () => { dispatch(deselectCards()) },
   addToScore: (score: number) => { dispatch(addToScore(score)) },
+  addCompletedSet: (set: ElementCard[]) => { dispatch(addCompletedSet(set)) },
   startGame: (time: number) => { dispatch(startGame(time)) }
 })
 
