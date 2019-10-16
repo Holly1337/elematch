@@ -39,7 +39,7 @@ const SelectableCard: React.FC<Props> = ({ card, index, isSelected, toggleSelect
     const [card1, card2, card3] = selectedCards
     if (!isValidSet(card1, card2, card3)) {
       controls.start({
-        rotate: ['0deg', '%deg', '0deg', '-5deg', '0deg'],
+        rotate: ['0deg', '5deg', '0deg', '-5deg', '0deg'],
       })
     }
   }

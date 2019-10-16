@@ -2,6 +2,7 @@ import React from 'react'
 import { Col, Row } from 'react-bootstrap'
 import { connect } from 'react-redux'
 import SelectableCard from './SelectableCard/SelectableCard'
+import {motion} from 'framer-motion'
 
 interface OwnProps {}
 interface StateProps {
@@ -14,8 +15,20 @@ const CardHolder: React.FC<Props> = ({ cards }) => {
   return (
     <Row>
       {cards.map((card, index) => (
-        <Col md={3} sm={4} xs={4} key={index}>
-          <SelectableCard card={card} index={index} />
+        <Col md={3} sm={4} xs={4} key={card.id}>
+          <motion.div
+            key={card.id}
+            animate={{
+              opacity: [0, 1],
+            }}
+            transition={{
+              ease: 'linear',
+              duration: 0.1,
+              delay: (0.025 * index)
+            }}
+          >
+            <SelectableCard card={card} index={index} />
+          </motion.div>
         </Col>
       ))}
     </Row>
