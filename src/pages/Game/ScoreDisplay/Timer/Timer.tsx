@@ -13,7 +13,6 @@ interface DispatchProps {
 type Props = OwnProps & StateProps & DispatchProps
 
 const Timer: React.FC<Props> = ({ timeRemaining, changeTimeRemaining }) => {
-  const [interval, setInterval] = useState<number | undefined>(undefined)
   const reduceTimeByOne = useCallback(() => {
     changeTimeRemaining(-1)
   }, [changeTimeRemaining])
@@ -22,7 +21,6 @@ const Timer: React.FC<Props> = ({ timeRemaining, changeTimeRemaining }) => {
     const newInterval = window.setInterval(() => {
       reduceTimeByOne()
     }, 1000)
-    setInterval(newInterval)
 
     return () => {
       window.clearInterval(newInterval)
