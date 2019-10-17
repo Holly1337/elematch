@@ -3,73 +3,51 @@ import { Container } from 'react-bootstrap'
 import CardHolder from './CardHolder/CardHolder'
 import { Dispatch } from 'redux'
 import { connect } from 'react-redux'
-import {
-  addCompletedSet,
-  addToScore,
-  deselectCards,
-  setCurrentCards,
-  setTimeRemaining,
-  startGame
-} from './Game.actions'
+import { addCompletedSet, addToScore, changeTimeRemaining, deselectCards, setCurrentCards } from './Game.actions'
 import { getSelectedCards } from './Game.reducer'
-import { AMOUNT_TO_SELECT, TIME_PER_ROUND } from '../../constants/gameplay'
 import { getDeck, getSetDifficulty, isValidSet } from '../../util/deck'
 import ScoreDisplay from './ScoreDisplay/ScoreDisplay'
 import LastSetHolder from './LastSetHolder/LastSetHolder'
 import background from '../../assets/images/background.png'
 import Page from '../Page'
-import { useHistory } from 'react-router'
-import { routes } from '../../constants/routes'
 import { audio } from '../../util/audio'
-
-// import fail from '../../assets/sounds/select-fail.mp3'
+import { GameMode } from '../../Types/enums'
 
 interface OwnProps {}
 interface StateProps {
   selectedCards: ElementCard[]
-  timeRemaining: number | null
 }
 interface DispatchProps {
   setCurrentCards: (cards: ElementCard[]) => void
   deselectCards: () => void
   addToScore: (score: number) => void
   addCompletedSet: (set: ElementCard[]) => void
-  startGame: (time: number) => void
-  clearTime: () => void
-
 }
 type Props = OwnProps & StateProps & DispatchProps
 
-const playFailSound = () => {
-  audio.selectFail.play()
-}
+const Game: React.FC<Props> = (props) => {
+  const { setCurrentCards, selectedCards, deselectCards, addToScore, addCompletedSet } = props
 
-const Game: React.FC<Props> = ({ setCurrentCards, selectedCards, deselectCards, addToScore, startGame, addCompletedSet, timeRemaining, clearTime }) => {
-  useEffect(() => {
-    console.log('start game')
-    startGame(TIME_PER_ROUND)
-
-    return () => {
-      console.log('game unmount')
-    }
-  }, [])
-
-  useEffect(() => {
+  const placeNewCards = () => {
     const deck = getDeck()
     if (deck) {
       setCurrentCards(deck)
     }
-
-  }, [setCurrentCards])
+  }
 
   useEffect(() => {
+    placeNewCards()
+  }, [])
+
+  useEffect(() => {
+    // the check happens after 3 cards are selected so the animation library will still work --> cards wiggle when failed
     if (selectedCards.length >= 3) {
       const [card1, card2, card3] = selectedCards
       const isValid = isValidSet(card1, card2, card3)
       deselectCards()
 
       if (!isValid) {
-        playFailSound()
+        audio.selectFail.play()
       } else {
         audio.select3.play()
         const difficulty = getSetDifficulty(card1, card2, card3)
@@ -77,21 +55,10 @@ const Game: React.FC<Props> = ({ setCurrentCards, selectedCards, deselectCards, 
         addToScore(points)
         const set = [...selectedCards]
         addCompletedSet(set)
-        const deck = getDeck()
-        if (deck) {
-          setCurrentCards(deck)
-        }
+       placeNewCards()
       }
     }
   }, [selectedCards])
-
-  const history = useHistory()
-  useEffect(() => {
-    if (typeof timeRemaining === 'number' && timeRemaining <= 0) {
-      clearTime()
-      history.push(routes.GAME_OVER)
-    }
-  }, [timeRemaining])
 
   return (
     <Page backgroundImage={background}>
@@ -105,7 +72,6 @@ const Game: React.FC<Props> = ({ setCurrentCards, selectedCards, deselectCards, 
 }
 
 const mapStateToProps = (state: AppState): StateProps => ({
-  timeRemaining: state.game.timeRemaining,
   selectedCards: getSelectedCards(state.game)
 })
 
@@ -114,8 +80,6 @@ const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps): DispatchPro
   deselectCards: () => { dispatch(deselectCards()) },
   addToScore: (score: number) => { dispatch(addToScore(score)) },
   addCompletedSet: (set: ElementCard[]) => { dispatch(addCompletedSet(set)) },
-  startGame: (time: number) => { dispatch(startGame(time)) },
-  clearTime: () => { dispatch(setTimeRemaining(null)) },
 })
 
 

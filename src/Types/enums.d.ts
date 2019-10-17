@@ -1,3 +1,8 @@
+export enum GameMode {
+  NORMAL,
+  TIME_HUNT
+}
+
 export enum CardElement {
   FIRE = 'Fire',
   WATER = 'Water',

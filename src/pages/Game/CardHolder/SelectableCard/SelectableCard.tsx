@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Dispatch } from 'redux'
 import classnames from 'classnames'
 import { connect } from 'react-redux'
@@ -43,8 +43,7 @@ const SelectableCard: React.FC<Props> = ({ card, index, isSelected, toggleSelect
 
   const imageClassname = classnames({
     'card-image': true,
-    'card-image-selected': isSelected,
-    // 'card-image-rotated': isRotated
+    'card-image-selected': isSelected
   })
 
   const toggleIsSelected = () => {

@@ -1,3 +1,5 @@
+$yellow: #fff500;
+
 @font-face {
     font-family: "DisposableDroid";
     src: url('../fonts/disposabledroid-bb/DisposableDroidBB.ttf') format('truetype');
@@ -37,4 +39,22 @@ body {
 
 .cursor-pointer {
     cursor: pointer;
+}
+
+.game-button {
+    min-width: 420px;
+    font-size: 80px;
+    color: black;
+    background-color: $yellow;
+    border: 5px solid black;
+
+    &:hover {
+        outline: none;
+        background-color: darken($yellow, 5%)
+    }
+
+    &:focus {
+        outline: none;
+        background-color: darken($yellow, 10%)
+    }
 }

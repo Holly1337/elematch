@@ -15,7 +15,6 @@ interface DispatchProps {
 }
 type Props = OwnProps & StateProps & DispatchProps
 
-let interval: undefined | number = undefined
 const Timer: React.FC<Props> = ({ timeRemaining, changeTimeRemaining, clearTime }) => {
   let history = useHistory()
 
@@ -24,16 +23,17 @@ const Timer: React.FC<Props> = ({ timeRemaining, changeTimeRemaining, clearTime 
   }, [changeTimeRemaining])
 
   useEffect(() => {
-    const newInterval = window.setInterval(() => {
-      reduceTimeByOne()
-    }, 1000)
-    interval = newInterval
+    const newInterval = window.setInterval(reduceTimeByOne, 1000)
 
-    return () => {
-      console.log('clean interval')
-      window.clearInterval(newInterval)
-    }
+    return () => { window.clearInterval(newInterval) }
   }, [reduceTimeByOne])
+
+  useEffect(() => {
+    if (typeof timeRemaining === 'number' && timeRemaining <= 0) {
+      clearTime()
+      history.push(routes.GAME_OVER)
+    }
+  }, [timeRemaining])
 
   if (typeof timeRemaining !== 'number') {
     return null

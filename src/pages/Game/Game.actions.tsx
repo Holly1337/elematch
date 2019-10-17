@@ -1,4 +1,6 @@
 // Action set score
+import { GameMode } from '../../Types/enums.d'
+
 export const SET_SCORE = 'Game/SET_SCORE'
 
 export interface SetScoreAction {
@@ -120,13 +122,15 @@ export const START_GAME = 'Game/START_GAME'
 
 export interface StartGameAction {
   type: typeof START_GAME,
-  time: number
+  time: number,
+  gameMode: GameMode
 }
 
-export function startGame (time: number): StartGameAction {
+export function startGame (time: number, gameMode: GameMode): StartGameAction {
   return {
     type: START_GAME,
-    time
+    time,
+    gameMode
   }
 }
 

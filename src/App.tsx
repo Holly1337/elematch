@@ -4,7 +4,7 @@ import { IonReactRouter } from '@ionic/react-router'
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css'
 import 'bootstrap/dist/css/bootstrap.css'
-import './assets/css/style.css'
+import './assets/css/style.scss'
 /* Basic CSS for apps built with Ionic */
 import '@ionic/react/css/normalize.css'
 import '@ionic/react/css/structure.css'

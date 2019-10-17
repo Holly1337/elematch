@@ -11,14 +11,18 @@ import {
   TOGGLE_CARD_SELECTED,
   ToggleCardSelectedAction
 } from './Game.actions'
+import { GameMode } from '../../Types/enums.d'
 
 const getDefaultSelected = () => new Set<number>()
+const getDefaultGameMode = () => GameMode.NORMAL
+
 const getDefaultState = (): GameState => ({
   score: 0,
   timeRemaining: null,
   currentCards: [],
   completedSets: [],
   selectedCardIndexes: getDefaultSelected(),
+  gameMode: getDefaultGameMode()
 })
 
 const toggleCardSelected = (state: GameState, action: ToggleCardSelectedAction): GameState => {
@@ -84,7 +88,8 @@ export const game = (state: GameState = getDefaultState(), action: GameActions):
     case START_GAME:
       return {
         ...getDefaultState(),
-        timeRemaining: action.time
+        timeRemaining: action.time,
+        gameMode: action.gameMode
       }
   default:
     return state

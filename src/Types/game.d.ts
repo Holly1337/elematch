@@ -4,6 +4,7 @@ interface GameState {
   currentCards: ElementCard[]
   completedSets: ElementCard[][]
   selectedCardIndexes: Set<number>
+  gameMode: GameMode
 }
 
 type ElementCardSet = ElementCard[] // TODO: change to [ElementCard, ElementCard, ElementCard]?
