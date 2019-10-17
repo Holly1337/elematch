@@ -8,7 +8,7 @@ import ScoreDisplay from './ScoreDisplay/ScoreDisplay'
 import LastSetHolder from './LastSetHolder/LastSetHolder'
 import background from '../../assets/images/background.png'
 import Page from '../Page'
-import { onCardSelect, startGame } from '../../util/gameLogic'
+import { onCardSelect, placeNewCards } from '../../util/gameLogic'
 import { GameMode } from '../../Types/enums.d'
 import TimeHuntBar from './TimeHuntBar/TimeHuntBar'
 
@@ -26,7 +26,7 @@ const Game: React.FC<Props> = (props) => {
   const selectedCards = getSelectedCards(gameState)
 
   useEffect(() => {
-    startGame(gameState, dispatch)
+    placeNewCards(dispatch)
   }, [])
 
   useEffect(() => {

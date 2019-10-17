@@ -1,17 +1,20 @@
 import {
   ADD_COMPLETED_SET,
   ADD_TO_SCORE,
-  CHANGE_TIME_REMAINING, ChangeTimeRemainingAction,
+  CHANGE_TIME_REMAINING,
+  ChangeTimeRemainingAction,
   DESELECT_CARDS,
   GameActions,
+  RESET_GAME,
   SET_CURRENT_CARDS,
   SET_SCORE,
   SET_TIME_REMAINING,
-  START_GAME,
+  START_GAME, StartGameAction,
   TOGGLE_CARD_SELECTED,
   ToggleCardSelectedAction
 } from './Game.actions'
 import { GameMode } from '../../Types/enums.d'
+import { TIME_HUNT, TIME_NORMAL } from '../../constants/gameplay'
 
 const getDefaultSelected = () => new Set<number>()
 const getDefaultGameMode = () => GameMode.NORMAL
@@ -51,6 +54,26 @@ const changeTimeRemaining = (state: GameState, action: ChangeTimeRemainingAction
   return state
 }
 
+
+const startGame = (state: GameState, action: StartGameAction): GameState => {
+  let timeRemaining = 0
+  switch (action.gameMode) {
+    case GameMode.TIME_HUNT:
+      timeRemaining = TIME_HUNT
+      break
+    case GameMode.NORMAL:
+      timeRemaining = TIME_NORMAL
+      break
+  }
+  console.log('time remaining:', timeRemaining)
+
+  return {
+    ...getDefaultState(),
+    timeRemaining: timeRemaining,
+    gameMode: action.gameMode
+  }
+}
+
 export const game = (state: GameState = getDefaultState(), action: GameActions): GameState => {
   switch (action.type) {
     case SET_SCORE:
@@ -88,10 +111,10 @@ export const game = (state: GameState = getDefaultState(), action: GameActions):
         currentCards: action.cards
       }
     case START_GAME:
+      return startGame(state, action)
+    case RESET_GAME:
       return {
-        ...getDefaultState(),
-        timeRemaining: action.time,
-        gameMode: action.gameMode
+        ...getDefaultState()
       }
   default:
     return state

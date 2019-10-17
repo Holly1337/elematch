@@ -122,15 +122,26 @@ export const START_GAME = 'Game/START_GAME'
 
 export interface StartGameAction {
   type: typeof START_GAME,
-  time: number,
   gameMode: GameMode
 }
 
-export function startGame (time: number, gameMode: GameMode): StartGameAction {
+export function startGame (gameMode: GameMode): StartGameAction {
   return {
     type: START_GAME,
-    time,
     gameMode
+  }
+}
+
+// Action reset game
+export const RESET_GAME = 'Game/RESET_GAME'
+
+export interface ResetGameAction {
+  type: typeof RESET_GAME
+}
+
+export function resetGame (): ResetGameAction {
+  return {
+    type: RESET_GAME
   }
 }
 
@@ -144,3 +155,4 @@ export type GameActions =
   | AddCompletedSetAction
   | SetCurrentCardsAction
   | StartGameAction
+  | ResetGameAction

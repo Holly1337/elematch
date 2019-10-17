@@ -8,26 +8,29 @@ import { GameMode } from '../../Types/enums.d'
 import { connect } from 'react-redux'
 import { Dispatch } from 'redux'
 import { startGame } from '../Game/Game.actions'
-import { TIME_HUNT, TIME_NORMAL } from '../../constants/gameplay'
 
 interface OwnProps {}
 interface StateProps {}
 interface DispatchProps {
-  startGame: (time: number, gameMode: GameMode) => void
+  startGame: (gameMode: GameMode) => void
 }
 type Props = OwnProps & StateProps & DispatchProps
 
 const Menu: React.FC<Props> = ({ startGame }) => {
   const history = useHistory()
 
-  const onStartNormalGame = () => {
-    startGame(TIME_NORMAL, GameMode.NORMAL)
+  const switchToGameRoute = () => {
     history.push(routes.GAME)
   }
 
+  const onStartNormalGame = () => {
+    startGame(GameMode.NORMAL)
+    switchToGameRoute()
+  }
+
   const onStartTimeHuntGame = () => {
-    startGame(TIME_HUNT, GameMode.TIME_HUNT)
-    history.push(routes.GAME)
+    startGame(GameMode.TIME_HUNT)
+    switchToGameRoute()
   }
 
   return (
@@ -53,7 +56,7 @@ const Menu: React.FC<Props> = ({ startGame }) => {
 }
 
 const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps): DispatchProps => ({
-  startGame: (time: number, gameMode: GameMode) => { dispatch(startGame(time, gameMode)) },
+  startGame: (gameMode: GameMode) => { dispatch(startGame(gameMode)) },
 })
 
 export default connect(

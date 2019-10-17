@@ -1,22 +1,35 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Page from '../Page'
 import background from '../../assets/images/background-gameover.png'
 import playAgainButton from '../../assets/images/buttons/button-playagain.png'
 import { useHistory } from 'react-router'
 import { routes } from '../../constants/routes'
 import { connect } from 'react-redux'
+import { Dispatch } from 'redux'
+import { resetGame, startGame } from '../Game/Game.actions'
+import { GameMode } from '../../Types/enums'
 
 interface OwnProps {}
 interface StateProps {
   score: number
+  gameMode: GameMode
 }
-interface DispatchProps {}
+interface DispatchProps {
+  resetGame: () => void
+  startGame: (gameMode: GameMode) => void
+}
 type Props = OwnProps & StateProps & DispatchProps
 
-const GameOver: React.FC<Props> = ({ score }) => {
+const GameOver: React.FC<Props> = ({ score, gameMode, resetGame, startGame }) => {
+  const [lastGameMode, setLastGameMode] = useState<GameMode>(gameMode)
   const history = useHistory()
 
+  useEffect(() => {
+    resetGame()
+  }, [])
+
   const onStartGame = () => {
+    startGame(lastGameMode)
     history.push(routes.GAME)
   }
 
@@ -43,9 +56,16 @@ const GameOver: React.FC<Props> = ({ score }) => {
 }
 
 const mapStateToProps = (state: AppState): StateProps => ({
-  score: state.game.score
+  score: state.game.score,
+  gameMode: state.game.gameMode
+})
+
+const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps): DispatchProps => ({
+  resetGame: () => { dispatch(resetGame()) },
+  startGame: (gameMode: GameMode) => { dispatch(startGame(gameMode)) }
 })
 
 export default connect(
-  mapStateToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(GameOver)

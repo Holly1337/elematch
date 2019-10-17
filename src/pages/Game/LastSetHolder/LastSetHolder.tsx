@@ -3,6 +3,7 @@ import { getScoreForSet } from '../../../util/score'
 import Card from '../../../GenericComponents/Card/Card'
 import { connect } from 'react-redux'
 import { Col, Row } from 'react-bootstrap'
+import { motion } from 'framer-motion'
 
 interface OwnProps {}
 interface StateProps {
@@ -27,11 +28,10 @@ const LastSetHolder: React.FC<Props> = ({ completedSets }) => {
     <div>
       <Row>
         {
-          cards.map(card => (
-            // TOOD: change the key to something that makes sense
+          cards.map((card, index) => (
             <Col key={card.id} md={4} sm={4} xs={4}>
               <Card card={card} />
-            </Col>
+              </Col>
           ))
         }
       </Row>
