@@ -9,6 +9,8 @@ import LastSetHolder from './LastSetHolder/LastSetHolder'
 import background from '../../assets/images/background.png'
 import Page from '../Page'
 import { onCardSelect, startGame } from '../../util/gameLogic'
+import { GameMode } from '../../Types/enums.d'
+import TimeHuntBar from './TimeHuntBar/TimeHuntBar'
 
 interface OwnProps {}
 interface StateProps {
@@ -36,6 +38,11 @@ const Game: React.FC<Props> = (props) => {
       <Container>
         <CardHolder />
         <ScoreDisplay />
+        {
+          gameState.gameMode === GameMode.TIME_HUNT && (
+            <TimeHuntBar />
+          )
+        }
         <LastSetHolder />
       </Container>
     </Page>
