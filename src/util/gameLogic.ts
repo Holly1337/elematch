@@ -1,7 +1,16 @@
 import { Dispatch } from 'redux'
 import { getDeck, getSetDifficulty, isValidSet } from './deck'
-import { addCompletedSet, addToScore, deselectCards, setCurrentCards } from '../pages/Game/Game.actions'
+import {
+  addCompletedSet,
+  addToScore,
+  deselectCards,
+  setCurrentCards,
+  setTimeRemaining,
+  startGame as startGameAction
+} from '../pages/Game/Game.actions'
 import { playSelectFail, playSelectSet } from './audio'
+import { GameMode } from '../Types/enums.d'
+import { TIME_HUNT, TIME_NORMAL } from '../constants/gameplay'
 
 export const placeNewCards = (dispatch: Dispatch) => {
   const deck = getDeck()
@@ -29,4 +38,13 @@ export const onCardSelect = (selectedCards: ElementCard[], dispatch: Dispatch) =
       placeNewCards(dispatch)
     }
   }
+}
+
+export const startGame = (game: GameState, dispatch: Dispatch) => {
+  if (game.gameMode === GameMode.TIME_HUNT) {
+    dispatch(setTimeRemaining(TIME_HUNT))
+  } else if (game.gameMode === GameMode.NORMAL) {
+    dispatch(setTimeRemaining(TIME_NORMAL))
+  }
+  placeNewCards(dispatch)
 }

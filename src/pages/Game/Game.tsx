@@ -8,11 +8,11 @@ import ScoreDisplay from './ScoreDisplay/ScoreDisplay'
 import LastSetHolder from './LastSetHolder/LastSetHolder'
 import background from '../../assets/images/background.png'
 import Page from '../Page'
-import { onCardSelect, placeNewCards } from '../../util/gameLogic'
+import { onCardSelect, startGame } from '../../util/gameLogic'
 
 interface OwnProps {}
 interface StateProps {
-  selectedCards: ElementCard[]
+  gameState: GameState
 }
 interface DispatchProps {
   dispatch: Dispatch
@@ -20,10 +20,11 @@ interface DispatchProps {
 type Props = OwnProps & StateProps & DispatchProps
 
 const Game: React.FC<Props> = (props) => {
-  const { selectedCards, dispatch } = props
+  const { gameState, dispatch } = props
+  const selectedCards = getSelectedCards(gameState)
 
   useEffect(() => {
-    placeNewCards(dispatch)
+    startGame(gameState, dispatch)
   }, [])
 
   useEffect(() => {
@@ -42,7 +43,7 @@ const Game: React.FC<Props> = (props) => {
 }
 
 const mapStateToProps = (state: AppState): StateProps => ({
-  selectedCards: getSelectedCards(state.game)
+  gameState: state.game
 })
 
 const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps): DispatchProps => ({
