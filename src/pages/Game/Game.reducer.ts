@@ -41,9 +41,11 @@ const toggleCardSelected = (state: GameState, action: ToggleCardSelectedAction):
 
 const changeTimeRemaining = (state: GameState, action: ChangeTimeRemainingAction): GameState => {
   if (typeof state.timeRemaining === 'number') {
+    let timeRemaining = state.timeRemaining + action.amount
+    timeRemaining = Math.max(timeRemaining, 0)
     return {
       ...state,
-      timeRemaining: state.timeRemaining + action.amount
+      timeRemaining: timeRemaining
     }
   }
   return state
