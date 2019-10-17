@@ -47,7 +47,7 @@ export const onCardSelect = (gameState: GameState, dispatch: Dispatch) => {
       if (timeRemaining === null) {
         return
       }
-      const timeToAdd = difficulty * 5
+      const timeToAdd = difficulty * 2
       const newTimeRemaining = Math.min(TIME_HUNT, timeRemaining + timeToAdd)
       dispatch(setTimeRemaining(newTimeRemaining))
     }

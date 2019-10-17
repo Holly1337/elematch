@@ -16,7 +16,7 @@ const TimeHuntBar: React.FC<Props> = ({ timeRemaining }) => {
     return null
   }
   const progress = (timeRemaining / TIME_HUNT) * 100
-  let color = 'green'
+  let color = 'greenyellow'
   if (progress < 75) {
     color = 'yellow'
   }
@@ -29,7 +29,7 @@ const TimeHuntBar: React.FC<Props> = ({ timeRemaining }) => {
   if (progress < 10) {
     color = 'red'
   }
-  
+
   return (
     <div className='ml-4 w-100'>
       <div
