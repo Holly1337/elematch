@@ -28,7 +28,7 @@ const Game: React.FC<Props> = (props) => {
   }, [])
 
   useEffect(() => {
-    onCardSelect(selectedCards, dispatch)
+    onCardSelect(gameState, dispatch)
   }, [selectedCards])
 
   return (

@@ -2,7 +2,7 @@ import { Dispatch } from 'redux'
 import { getDeck, getSetDifficulty, isValidSet } from './deck'
 import {
   addCompletedSet,
-  addToScore,
+  addToScore, changeTimeRemaining,
   deselectCards,
   setCurrentCards,
   setTimeRemaining,
@@ -11,6 +11,7 @@ import {
 import { playSelectFail, playSelectSet } from './audio'
 import { GameMode } from '../Types/enums.d'
 import { TIME_HUNT, TIME_NORMAL } from '../constants/gameplay'
+import { getSelectedCards } from '../pages/Game/Game.reducer'
 
 export const placeNewCards = (dispatch: Dispatch) => {
   const deck = getDeck()
@@ -19,7 +20,8 @@ export const placeNewCards = (dispatch: Dispatch) => {
   }
 }
 
-export const onCardSelect = (selectedCards: ElementCard[], dispatch: Dispatch) => {
+export const onCardSelect = (gameState: GameState, dispatch: Dispatch) => {
+  const selectedCards: ElementCard[] = getSelectedCards(gameState)
   // the check happens after 3 cards are selected so the animation library will still work --> cards wiggle when failed
   if (selectedCards.length >= 3) {
     const [card1, card2, card3] = selectedCards
@@ -28,14 +30,26 @@ export const onCardSelect = (selectedCards: ElementCard[], dispatch: Dispatch) =
 
     if (!isValid) {
       playSelectFail()
-    } else {
-      playSelectSet()
-      const difficulty = getSetDifficulty(card1, card2, card3)
-      const points = difficulty * 10
-      dispatch(addToScore(points))
-      const set = [...selectedCards]
-      dispatch(addCompletedSet(set))
-      placeNewCards(dispatch)
+      return
+    }
+
+    // is valid
+    playSelectSet()
+    const difficulty = getSetDifficulty(card1, card2, card3)
+    const points = difficulty * 10
+    dispatch(addToScore(points))
+    const set = [...selectedCards]
+    dispatch(addCompletedSet(set))
+    placeNewCards(dispatch)
+
+    if (gameState.gameMode === GameMode.TIME_HUNT) {
+      const timeRemaining = gameState.timeRemaining
+      if (timeRemaining === null) {
+        return
+      }
+      const timeToAdd = difficulty * 5
+      const newTimeRemaining = Math.min(TIME_HUNT, timeRemaining + timeToAdd)
+      dispatch(setTimeRemaining(newTimeRemaining))
     }
   }
 }
