@@ -29,7 +29,7 @@ const LastSetHolder: React.FC<Props> = ({ completedSets }) => {
         {
           cards.map(card => (
             // TOOD: change the key to something that makes sense
-            <Col key={JSON.stringify(card)} md={4} sm={4} xs={4}>
+            <Col key={card.id} md={4} sm={4} xs={4}>
               <Card card={card} />
             </Col>
           ))
