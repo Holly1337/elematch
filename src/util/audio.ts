@@ -9,3 +9,27 @@ export const audio = {
   select3,
   selectFail
 }
+
+export const playSelect1 = () => {
+  try {
+    // select1.play()
+  } catch (e) { }
+}
+
+export const playSelect2 = () => {
+  try {
+    // select2.play()
+  } catch (e) { }
+}
+
+export const playSelectSet = () => {
+  try {
+    // select3.play()
+  } catch (e) { }
+}
+
+export const playSelectFail = () => {
+  try {
+    // selectFail.play()
+  } catch (e) { }
+}

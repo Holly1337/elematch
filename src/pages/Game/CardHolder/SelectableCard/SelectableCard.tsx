@@ -7,7 +7,7 @@ import { getImageForCard } from '../../../../util/cardImageLoader'
 import { getSelectedCards } from '../../Game.reducer'
 import { motion, useAnimation } from 'framer-motion'
 import { isValidSet } from '../../../../util/deck'
-import { audio } from '../../../../util/audio'
+import { audio, playSelect1, playSelect2 } from '../../../../util/audio'
 
 interface OwnProps {
   card: ElementCard
@@ -54,10 +54,10 @@ const SelectableCard: React.FC<Props> = ({ card, index, isSelected, toggleSelect
     if (!isSelected) {
       switch (selectedCards.length) {
         case 0:
-          audio.select1.play()
+          playSelect1()
           break
         case 1:
-          audio.select2.play()
+          playSelect2()
           break
       }
       controls.start({
